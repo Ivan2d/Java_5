@@ -2,31 +2,54 @@ public class DiagMatrix extends Matrix
 {
     private int N;
     private double [] matrix = new double[N*N];
+
     public DiagMatrix(int N)
     {
-        super(N);
+        this.N = N;
+        matrix = new double[N];
     }
+
 
     public DiagMatrix(double[] diagElems)
     {
-        this.N = diagElems.length;
-        for(int i = 0; i < N; i++){
-            matrix[i+N+1] = diagElems[i];
+        this(diagElems.length);
+
+        if (diagElems == null || diagElems.length == 0) throw new IllegalArgumentException("Данный массив не существует или его размер равен 0");
+
+        for(int i = 0; i < N; i++)
+        {
+            matrix[i] = diagElems[i];
         }
     }
 
-    public void setElem(int i, int j, double elem) throws Exception
+    //Проверка корректности i j и геттеры?
+    public void setElement(int i, int j, double elem) throws IllegalArgumentException
     {
-        if(i*N+j != i*N+1){
-            if(elem != 0){
-                throw new Exception("Введено неверное значение");
-            }
-            else{
-                matrix[i*N+j] = elem;
-            }
+        if(i < 0 || j < 0 || j > N || i > N || (i != j && elem != 0))
+        {
+            throw new IllegalArgumentException("Введено неверное значение");
         }
-        else{
-            matrix[i*N+j] = elem;
+
+        matrix[i] = elem;
+    }
+
+    public double getElement(int i, int j)
+    {
+        if(i < 0 || j < 0 || j > N || i > N)
+        {
+            throw new IllegalArgumentException("Введено неверное значение");
         }
+
+        return matrix[i * N + j];
+    }
+
+    @Override
+    public int getN() {
+        return N;
+    }
+
+    public double[] getMatrix()
+    {
+        return matrix;
     }
 }
